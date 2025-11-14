@@ -1,0 +1,13 @@
+1. I set up the library needed to run the game and installed dependencies.
+2. To remove the black flashlight that appears when the game is first opened, I first reviewed the main code to find the code related to it.
+I found the draw_black_screen_effect() function in the mainMenu.py file and removed it.
+
+3. This took some time.
+I first identified a problem with the functions used to determine the location of the tank, the ground, and the explosion. The related function was update_after_explosion. During debugging, I discovered that the logic for checking whether the explosion area included the ground point was incorrect, resulting in the remaining simple pixels being displayed.
+Therefore, I modified the original logic and wrote an evaluation function. This, combined with a ceiling function, resolved the issue of the single pixel being displayed after the change.
+
+4. This was not completed. The problem was to split the shot into four shots at the apex, applying different impact points and hitting only 1/4 of the shots. I set up a three-step process: splitting the shot into four shots at the apex, finding the different impact points, and writing a script to apply only 1/4 of the shots.
+First, I confirmed that the shot should be split into four shots at the apex, and the apex finding process was accurate.
+Then, I tried to split the shot into four shots, but the angle calculations were complex and couldn't be completed within the allotted time.
+To briefly explain the logic, I defined a function that sets offsets for the horizontal and vertical velocities relative to the apex of the shot and loops to find shots in the four directions for each shot.
+This function calculates the direction and velocity of the four split shots and their impact points.

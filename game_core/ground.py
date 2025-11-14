@@ -1,4 +1,5 @@
 import pygame
+import math
 from random import randint
 from shapely.geometry import LineString, Point, MultiPoint
 from game_core.constants import *
@@ -66,8 +67,9 @@ class Ground:
         max_left = max(0, explosion_point[0]-explosion_radius)
         max_right = min(display_width, explosion_point[0]+explosion_radius)
         for i in range(max_left, max_right):
-            ground_line = LineString([[i, display_height], self.points[i]])
+            ground_line = LineString([[i, display_height], [i, self.points[i][1]]])
             intersection = explosion_circle.intersection(ground_line)
+
             if explosion_point[1] + explosion_radius > display_height:
                 left_start = explosion_point[1] - explosion_radius
                 if self.points[i][1] < left_start:
@@ -78,16 +80,18 @@ class Ground:
             elif isinstance(intersection, MultiPoint):
                 first_point = intersection.geoms[0]
                 second_point = intersection.geoms[1]
-                fst_coordinate = i, min(int(first_point.coords[0][1]), int(second_point.coords[0][1]))
-                snd_coordinate = i, max(int(first_point.coords[0][1]), int(second_point.coords[0][1]))
+                fst_coordinate = i, math.ceil(min(int(first_point.coords[0][1]), int(second_point.coords[0][1])))
+                snd_coordinate = i, math.ceil(max(int(first_point.coords[0][1]), int(second_point.coords[0][1])))
 
                 left_length = fst_coordinate[1] - self.points[i][1]
                 if left_length > 0:
                     left_ground.append([[i, fst_coordinate[1]], [i, self.points[i][1]]])
                 self.points[i][1] = snd_coordinate[1]
             elif isinstance(intersection, Point):
-                if not explosion_circle.contains(intersection):
-                    self.points[i][1] = int(intersection.coords[0][1])
+                ground_point = Point(self.points[i])
+                explosion_area = Point(explosion_point).buffer(explosion_radius)
+                if explosion_area.contains(ground_point):
+                    self.points[i][1] = math.ceil(intersection.coords[0][1])
 
         return left_ground
 

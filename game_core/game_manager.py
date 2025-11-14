@@ -99,6 +99,23 @@ class GameManager:
         for player in self.players:
             player.correct_tanks_heights(self.ground)
 
+    #uncomplete
+    def fire_four_shell(self, pos, spd, ang, col):
+        t= 0.1
+        while pos[1] < display_height:
+            pos[0] += int(spd * sin(ang) * t)
+            pos[1] += int(-((spd*cos(ang)) - 10 * t / 2) * t)
+            t += 0.1
+            hit_pos = self.check_collision([pos[0] - 1, pos[1] - 1], pos)
+            if hit_pos:
+                animate_explosion(self.game_display, hit_pos, self.strike_earth_sound, simple_shell_radius)
+                self.correct_ground(hit_pos, simple_shell_radius)
+                self.apply_players_damages(hit_pos, simple_shell_power, simple_shell_radius)
+                break
+            pygame.draw.circle(self.game_display, col, pos, 2)
+            pygame.display.update()
+            self.clock.tick(60)
+
     def fire_simple_shell(self, tank_object):
         """
         Show animation of shooting simple shell
@@ -112,6 +129,7 @@ class GameManager:
         elapsed_time = 0.1
 
         fire = True
+        prev_v = -999
 
         while fire:
             for event in pygame.event.get():
@@ -120,6 +138,12 @@ class GameManager:
 
             prev_shell_position = list(shell_position)
             vertical_speed = -((speed * cos(gun_angle)) - 10 * elapsed_time / 2)
+            if prev_v < 0 <= vertical_speed:
+                for offset in [-0.4, -0.15, 0.15, 0.4]:
+                    pygame.draw.circle(self.game_display, color, shell_position, 8)
+                    self.fire_four_shell(shell_position[:], speed, gun_angle + offset, color)
+                fire = False
+            prev_v = vertical_speed
             horizontal_speed = (speed * sin(gun_angle))
             shell_position[0] += int(horizontal_speed * elapsed_time)
             shell_position[1] += int(vertical_speed * elapsed_time)

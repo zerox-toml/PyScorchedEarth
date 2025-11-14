@@ -22,7 +22,7 @@ class Tank:
         self.position = list(pos)
         self.health_bar_position = health_bar_pos
         self.tank_health = initial_tank_health
-        self.turret_angle = initial_turret_angle + (randint(0, pi/angle_step) * angle_step)
+        self.turret_angle = initial_turret_angle + (randint(0, int(pi/angle_step)) * angle_step)
         self.player_color = color
         self.turret_end_x = 0
         self.turret_end_y = 0

@@ -1,0 +1,16 @@
+Scorched Earth - Non-AI
+
+This is a no-AI exercise. Please do not use LLM engines, or AI code completion.
+
+This is your starting point: 
+https://github.com/fdeods/PyScorchedEarth/
+
+
+Your task is to do following:
+
+1. Get the game to work with newest versions of respective libraries pygame 2.6.1, shapely 2.1.2, numpy 2.2.6
+2. Label as FIX1 : remove bug / annnoying feature of flashlight effect on all-dark menu at the start
+3. Label as FIX2 : fix a single pixel of terrain remanining in an explosion crater
+4. Label as FEAT1 : add MIRV shot type - a shot will split into four shots on top of its ballistic trajectory, each shot should impact in a different spot with an explosion and damage 1/4th of a single shot
+
+Please keep notes of your engineering decisions in a .md file in the repository 

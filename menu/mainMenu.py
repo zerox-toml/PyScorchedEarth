@@ -216,7 +216,7 @@ def init_menu():
             screen.blit(option.rend, option.rect)
 
         # draw effect
-        if not is_effect(pygame.mixer.music.get_pos()):
-            draw_black_screen_effect()
+        # if not is_effect(pygame.mixer.music.get_pos()):
+        #     draw_black_screen_effect()
 
         pygame.display.update()
